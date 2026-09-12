@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-head"><div><h1>Patients</h1><p class="muted">Patient administration and demographic records</p></div><a class="button primary" href="{{ url_for('patient_new') }}">+ New patient</a></div>
+<form method="get" class="search"><input name="q" value="{{ q }}" placeholder="Search name, patient ID, phone"><button class="button">Search</button></form>
+<div class="card">
+<table><thead><tr><th>Patient ID</th><th>Name</th><th>DOB</th><th>Phone</th><th></th></tr></thead><tbody>
+{% for p in patients %}<tr><td>{{ p.patient_code }}</td><td>{{ p.full_name }}</td><td>{{ p.date_of_birth.strftime('%b %d, %Y') }}</td><td>{{ p.phone or '—' }}</td><td><a href="{{ url_for('patient_detail', patient_id=p.id) }}">Open</a></td></tr>{% else %}<tr><td colspan="5">No patients found.</td></tr>{% endfor %}
+</tbody></table>
+</div>
+{% endblock %}

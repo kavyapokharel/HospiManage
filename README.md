@@ -1,47 +1,73 @@
-# Hospital Management System (C++)
+# HospiManage — Full-Stack Hospital Management System
 
-This is a console-based Hospital Management System written in C++.
-The program allows users to manage patient records using binary file storage. It supports adding, viewing, searching, modifying, deleting, and transposing patient data.
+HospiManage is a full-stack web application for patient administration, appointment scheduling, and basic electronic health record (EHR) workflows.
 
-All records are stored in a binary file (hospital.dat) for persistence.
+This version modernizes the original console-based C++ patient-record project (`legacy/HospiManage.cpp`) into a web application.
 
-# Features
+## Tech stack
+- **Backend:** Python, Flask
+- **Database:** SQLite + SQLAlchemy ORM
+- **Frontend:** HTML, CSS, Jinja templates
+- **Security / validation:** Flask-Login, password hashing with Werkzeug, CSRF protection through Flask-WTF, server-side form validation, database uniqueness/check constraints
 
-- Adds new patient records
-- Displays all patient records
-- Searches patient by ID
-- Modifies existing patient records
-- Deletes specific patient records
-- Transposes records within an ID range
-- Displays transposed records
-- Erases all records
+## Features
+- Staff login/logout
+- Patient creation, search, detail view, and editing
+- Appointment scheduling with clinician/time conflict prevention
+- Appointment status workflow
+- EHR entries for diagnosis, treatment, medication, and clinical notes
+- Relational database schema with foreign keys and cascading relationships
+- Server-side validation and duplicate patient-ID prevention
+- Responsive dashboard
 
-# Data Stored
+## Run locally
 
-Each patient record contains:
+```bash
+python -m venv .venv
+# Windows:
+.venv\\Scripts\\activate
+# macOS/Linux:
+# source .venv/bin/activate
 
-- Patient ID
-- Patient Name
-- Age
-- Gender
-- Marital Status
-- Father’s Name (if applicable)
-- Mother’s Name (if applicable)
-- Husband’s Name (if applicable)
-- Referrer’s Name & Relation
-- Mobile Number
+pip install -r requirements.txt
+python app.py
+```
 
-# File Structure
+Open `http://127.0.0.1:5000`.
 
-hospital.dat → Main binary file storing patient records
-hos.dat → Temporary file used for delete/transpose operations
+Demo credentials:
+- username: `admin`
+- password: `admin123`
 
-# Technologies Used
+For anything beyond a local demo, set environment variables `SECRET_KEY` and `ADMIN_PASSWORD`, use a production database, HTTPS, access controls, audit logging, backups, and institution-specific compliance controls.
 
-- C++
-- File Handling 
-- Binary File Storage
-- String Handling 
-- Console I/O 
-- Windows-specific functions 
+## Data model
 
+**User**
+- username, password hash, role
+
+**Patient**
+- unique patient code
+- name, DOB, sex
+- contact and emergency-contact information
+
+**Appointment**
+- patient relationship
+- date/time, department, clinician, reason, status, notes
+- unique clinician/time constraint
+
+**MedicalRecord**
+- patient relationship
+- encounter date, diagnosis, treatment, medications, clinical notes, author
+
+## Interview explanation
+
+The original version was a C++ console application that stored patient records in binary files. The full-stack version preserves the patient-management idea but separates concerns into:
+
+1. a Flask web backend,
+2. a relational SQL database,
+3. HTML/CSS user interfaces,
+4. validated web forms,
+5. authenticated staff access.
+
+This is a portfolio/demo project and is not intended for production clinical use.

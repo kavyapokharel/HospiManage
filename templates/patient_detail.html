@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-head"><div><h1>{{ patient.full_name }}</h1><p class="muted">{{ patient.patient_code }} · {{ patient.sex }} · DOB {{ patient.date_of_birth.strftime('%b %d, %Y') }}</p></div><a class="button" href="{{ url_for('patient_edit', patient_id=patient.id) }}">Edit patient</a></div>
+<div class="grid-two">
+  <div class="card"><h2>Contact</h2><p><b>Phone:</b> {{ patient.phone or '—' }}</p><p><b>Email:</b> {{ patient.email or '—' }}</p><p><b>Address:</b> {{ patient.address or '—' }}</p><p><b>Emergency:</b> {{ patient.emergency_contact or '—' }}</p></div>
+  <div class="card"><h2>Quick actions</h2><p><a class="button primary" href="{{ url_for('appointment_new', patient_id=patient.id) }}">Schedule appointment</a></p><p><a class="button" href="{{ url_for('record_new', patient_id=patient.id) }}">Add EHR entry</a></p></div>
+</div>
+<div class="card"><div class="section-head"><h2>Appointments</h2></div><table><thead><tr><th>Date</th><th>Department</th><th>Clinician</th><th>Status</th></tr></thead><tbody>{% for a in appointments %}<tr><td>{{ a.scheduled_for.strftime('%b %d, %Y %I:%M %p') }}</td><td>{{ a.department }}</td><td>{{ a.clinician }}</td><td>{{ a.status }}</td></tr>{% else %}<tr><td colspan="4">No appointments.</td></tr>{% endfor %}</tbody></table></div>
+<div class="card"><div class="section-head"><h2>Electronic health records</h2></div>{% for r in records %}<article class="record"><h3>{{ r.encounter_date.strftime('%b %d, %Y') }} — {{ r.diagnosis }}</h3><p><b>Author:</b> {{ r.author }}</p>{% if r.treatment %}<p><b>Treatment:</b> {{ r.treatment }}</p>{% endif %}{% if r.medications %}<p><b>Medications:</b> {{ r.medications }}</p>{% endif %}{% if r.clinical_notes %}<p>{{ r.clinical_notes }}</p>{% endif %}</article>{% else %}<p class="muted">No medical records.</p>{% endfor %}</div>
+{% endblock %}

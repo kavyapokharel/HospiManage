@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-head"><div><h1>Appointments</h1><p class="muted">Scheduling and visit workflow</p></div><a class="button primary" href="{{ url_for('appointment_new') }}">+ Schedule</a></div>
+<div class="card"><table><thead><tr><th>Date</th><th>Patient</th><th>Department</th><th>Clinician</th><th>Reason</th><th>Status</th></tr></thead><tbody>
+{% for a in appointments %}<tr><td>{{ a.scheduled_for.strftime('%b %d, %Y %I:%M %p') }}</td><td><a href="{{ url_for('patient_detail', patient_id=a.patient.id) }}">{{ a.patient.full_name }}</a></td><td>{{ a.department }}</td><td>{{ a.clinician }}</td><td>{{ a.reason }}</td><td><form method="post" action="{{ url_for('appointment_status', appointment_id=a.id) }}" class="inline-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><select name="status" onchange="this.form.submit()">{% for s in ['Scheduled','Completed','Cancelled','No-show'] %}<option value="{{ s }}" {% if s==a.status %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></form></td></tr>{% else %}<tr><td colspan="6">No appointments.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

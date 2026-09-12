@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-head"><h1>Schedule appointment</h1></div>
+<div class="card"><form method="post" class="form-grid">
+{{ form.hidden_tag() }}
+{% for field in [form.patient_id, form.scheduled_for, form.department, form.clinician, form.reason, form.status, form.notes] %}<label>{{ field.label }}{{ field() }}{% for e in field.errors %}<small class="error">{{ e }}</small>{% endfor %}</label>{% endfor %}
+<div class="form-actions">{{ form.submit(class_="button primary") }}<a class="button" href="{{ url_for('appointments') }}">Cancel</a></div>
+</form></div>
+{% endblock %}

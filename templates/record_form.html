@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-head"><h1>New EHR entry</h1></div>
+<div class="card"><form method="post" class="form-grid">
+{{ form.hidden_tag() }}
+{% for field in [form.patient_id, form.encounter_date, form.diagnosis, form.treatment, form.medications, form.clinical_notes, form.author] %}<label>{{ field.label }}{{ field() }}{% for e in field.errors %}<small class="error">{{ e }}</small>{% endfor %}</label>{% endfor %}
+<div class="form-actions">{{ form.submit(class_="button primary") }}<a class="button" href="{{ url_for('records') }}">Cancel</a></div>
+</form></div>
+{% endblock %}

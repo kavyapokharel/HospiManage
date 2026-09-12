@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Sign in · HospiManage{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <h1>HospiManage</h1>
+  <p class="muted">Staff portal</p>
+  <form method="post" class="form-grid one-col">
+    {{ form.hidden_tag() }}
+    <label>{{ form.username.label }}{{ form.username(placeholder="admin") }}{% for e in form.username.errors %}<small class="error">{{ e }}</small>{% endfor %}</label>
+    <label>{{ form.password.label }}{{ form.password(placeholder="••••••••") }}{% for e in form.password.errors %}<small class="error">{{ e }}</small>{% endfor %}</label>
+    {{ form.submit(class_="button primary") }}
+  </form>
+  <p class="hint">Demo login: admin / admin123</p>
+</div>
+{% endblock %}

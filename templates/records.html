@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-head"><div><h1>Electronic health records</h1><p class="muted">Encounter notes, diagnoses, treatment, and medications</p></div><a class="button primary" href="{{ url_for('record_new') }}">+ New EHR entry</a></div>
+<div class="card"><table><thead><tr><th>Date</th><th>Patient</th><th>Diagnosis</th><th>Author</th></tr></thead><tbody>{% for r in records %}<tr><td>{{ r.encounter_date.strftime('%b %d, %Y') }}</td><td><a href="{{ url_for('patient_detail', patient_id=r.patient.id) }}">{{ r.patient.full_name }}</a></td><td>{{ r.diagnosis }}</td><td>{{ r.author }}</td></tr>{% else %}<tr><td colspan="4">No medical records.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

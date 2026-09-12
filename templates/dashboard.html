@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-head"><div><h1>Dashboard</h1><p class="muted">Hospital administration overview</p></div></div>
+<div class="stats">
+  <div class="card stat"><span>Patients</span><strong>{{ patient_count }}</strong></div>
+  <div class="card stat"><span>Appointments</span><strong>{{ appointment_count }}</strong></div>
+  <div class="card stat"><span>EHR entries</span><strong>{{ record_count }}</strong></div>
+</div>
+<div class="card">
+  <div class="section-head"><h2>Upcoming appointments</h2><a class="button" href="{{ url_for('appointment_new') }}">+ Schedule</a></div>
+  {% if upcoming %}
+  <table><thead><tr><th>When</th><th>Patient</th><th>Clinician</th><th>Status</th></tr></thead><tbody>
+  {% for a in upcoming %}<tr><td>{{ a.scheduled_for.strftime('%b %d, %Y %I:%M %p') }}</td><td><a href="{{ url_for('patient_detail', patient_id=a.patient.id) }}">{{ a.patient.full_name }}</a></td><td>{{ a.clinician }}</td><td><span class="badge">{{ a.status }}</span></td></tr>{% endfor %}
+  </tbody></table>
+  {% else %}<p class="muted">No upcoming appointments.</p>{% endif %}
+</div>
+{% endblock %}
